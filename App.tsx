@@ -4,10 +4,11 @@ import { Onboarding } from './components/Onboarding';
 import { Dashboard } from './components/Dashboard';
 import { SoldierPortal } from './components/SoldierPortal';
 import { DigitalPaper } from './components/DigitalPaper';
+import { LandingPage } from './components/LandingPage';
 import { AppView, MilitaryFieldProfile, Soldier } from './types';
 
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<AppView>(AppView.AUTH);
+  const [currentView, setCurrentView] = useState<AppView>(AppView.LANDING);
   
   // App State
   const [fieldProfile, setFieldProfile] = useState<MilitaryFieldProfile | null>(null);
@@ -31,13 +32,17 @@ const App: React.FC = () => {
   };
 
   const handleLogout = () => {
-    setCurrentView(AppView.AUTH);
+    setCurrentView(AppView.LANDING);
     setFieldProfile(null);
     setSoldiers([]);
   };
 
   return (
     <>
+      {currentView === AppView.LANDING && (
+        <LandingPage onEnterApp={() => setCurrentView(AppView.AUTH)} />
+      )}
+
       {currentView === AppView.AUTH && (
         <Auth 
           onLogin={handleLogin} 
