@@ -13,7 +13,7 @@ https://exitpapers-878742464512.us-west1.run.app
 - Vite
 - Javascript
 - Node.js
-- Promt Engineering
+- Prompt Engineering
 
 ## How To Run Locally ## 
 **Prerequisites:**  Node.js
