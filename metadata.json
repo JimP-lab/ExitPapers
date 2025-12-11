@@ -1,0 +1,5 @@
+{
+  "name": "ExitPapers",
+  "description": "A military exit approval system allowing commanders to manage soldier leave and generate digital exit papers with AI-enhanced formal protocols.",
+  "requestFramePermissions": []
+}
