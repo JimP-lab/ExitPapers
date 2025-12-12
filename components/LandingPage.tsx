@@ -190,7 +190,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                       onCanPlay={handleVideoCanPlay}
                     >
                       {/* FIXED: Correct path to video in public folder */}
-                      <source src="/attachments/ExitPapers-Preview.webm" type="video/webm"/>
+                      <source src="public/attachments/ExitPapers-Preview.webm" type="video/webm"/>
                       Your browser does not support the video tag.
                     </video>
                   )}
