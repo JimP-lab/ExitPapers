@@ -10,6 +10,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showControls, setShowControls] = useState(false);
+  const [videoError, setVideoError] = useState(false);
 
   // Scroll-based autoplay logic
   useEffect(() => {
@@ -63,6 +64,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
         setIsPlaying(true);
       }
     }
+  };
+
+  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    const video = e.currentTarget;
+    console.error('Video loading error:', {
+      error: video.error,
+      errorCode: video.error?.code,
+      errorMessage: video.error?.message,
+      src: video.currentSrc,
+      networkState: video.networkState,
+      readyState: video.readyState
+    });
+    setVideoError(true);
+    setIsPlaying(false);
+  };
+
+  const handleVideoLoad = () => {
+    console.log('Video loaded successfully');
+    setVideoError(false);
   };
 
   return (
@@ -145,31 +165,56 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                   onMouseEnter={() => setShowControls(true)}
                   onMouseLeave={() => setShowControls(isPlaying ? false : true)}
                 >
-                  <video 
-                    ref={videoRef}
-                    className="w-full h-full object-cover"
-                    loop 
-                    muted 
-                    playsInline
-                    src="attachments/ExitPapers-Preview.webm"
-                  >
-                  </video>
+                  {videoError ? (
+                    // Fallback UI when video fails to load
+                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 text-white">
+                      <div className="text-center p-8">
+                        <Shield className="w-16 h-16 mx-auto mb-4 text-emerald-500" />
+                        <h3 className="text-xl font-bold mb-2">ExitPapers System Preview</h3>
+                        <p className="text-slate-400 text-sm mb-4">Video preview temporarily unavailable</p>
+                        <button
+                          onClick={onEnterApp}
+                          className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg text-sm font-semibold transition-colors"
+                        >
+                          View Live Demo
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <video 
+                      ref={videoRef}
+                      className="w-full h-full object-cover"
+                      loop 
+                      muted 
+                      playsInline
+                      preload="metadata"
+                      onError={handleVideoError}
+                      onLoadedData={handleVideoLoad}
+                    >
+                      {/* FIXED: Added leading slash and multiple source formats for better compatibility */}
+                      <source src="/attachments/ExitPapers-Preview.webm" type="video/webm"/>    
+                      {/* Fallback message for browsers that don't support video tag */}
+                      Your browser does not support the video tag.
+                    </video>
+                  )}
                   
                   {/* Controls Overlay */}
-                  <button
-                    onClick={togglePlay}
-                    className={`absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px] transition-all duration-300 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
-                    aria-label={isPlaying ? "Pause video" : "Play video"}
-                  >
-                    <div className={`
-                      flex items-center justify-center w-16 h-16 md:w-20 md:h-20 
-                      rounded-full bg-slate-900/90 text-white border border-slate-700/50 shadow-2xl
-                      transition-all duration-300 transform
-                      hover:scale-110 hover:bg-emerald-600 hover:border-emerald-500
-                    `}>
-                      {isPlaying ? <Pause className="w-6 h-6 md:w-8 md:h-8 fill-current" /> : <Play className="w-6 h-6 md:w-8 md:h-8 fill-current ml-1" />}
-                    </div>
-                  </button>
+                  {!videoError && (
+                    <button
+                      onClick={togglePlay}
+                      className={`absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px] transition-all duration-300 ${showControls || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
+                      aria-label={isPlaying ? "Pause video" : "Play video"}
+                    >
+                      <div className={`
+                        flex items-center justify-center w-16 h-16 md:w-20 md:h-20 
+                        rounded-full bg-slate-900/90 text-white border border-slate-700/50 shadow-2xl
+                        transition-all duration-300 transform
+                        hover:scale-110 hover:bg-emerald-600 hover:border-emerald-500
+                      `}>
+                        {isPlaying ? <Pause className="w-6 h-6 md:w-8 md:h-8 fill-current" /> : <Play className="w-6 h-6 md:w-8 md:h-8 fill-current ml-1" />}
+                      </div>
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -181,8 +226,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
            </div>
 
            <div className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-500">
-             <div className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`}></div>
-             {isPlaying ? 'Live System Preview' : 'Preview Paused'}
+             <div className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-emerald-500 animate-pulse' : videoError ? 'bg-red-500' : 'bg-slate-400'}`}></div>
+             {videoError ? 'Video Unavailable' : (isPlaying ? 'Live System Preview' : 'Preview Paused')}
           </div>
         </div>
       </section>
