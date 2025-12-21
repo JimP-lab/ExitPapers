@@ -122,7 +122,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
             onClick={onEnterApp}
             className="w-full sm:w-auto px-10 py-5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-xl shadow-2xl shadow-emerald-200 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3"
           >
-            Start Deploying
+            Start Creating
             <ArrowRight className="w-6 h-6" />
           </button>
           <button 
