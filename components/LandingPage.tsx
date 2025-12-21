@@ -114,7 +114,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
         </h1>
         
         <p className="text-xl md:text-2xl text-slate-500 max-w-2xl mx-auto mb-14 leading-relaxed font-medium">
-          Deploy AI-generated, cryptographically secure digital exit papers. Streamline your command and secure your base perimeter.
+          Create Digital Secure Exit Papers and Streamline Your Command Process.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24">
@@ -196,9 +196,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
               <div className="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
                 <Zap className="w-8 h-8 text-emerald-600" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">AI Protocol Gen</h3>
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">Digital Protocol </h3>
               <p className="text-slate-600 leading-relaxed text-lg">
-                Instantly draft formal military exit statements tailored to each soldier's rank using Gemini AI.
+                Instantly draft formal military exit statements tailored to each soldier's rank.
               </p>
             </div>
 
